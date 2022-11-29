@@ -1,4 +1,5 @@
 function addProductToCart(productName, productPrice, productImage) {
+    if (typeof productName !== 'string' || !productName.trim() || !Number.isFinite(parsePrice(productPrice))) return;
     const text = document.querySelector('.text');
     if (text) {
         text.remove();
@@ -104,9 +105,17 @@ function addProductToCart(productName, productPrice, productImage) {
 
 }
 // obtener productos del carrito 
+function parsePrice(value) {
+    const text = String(value ?? '').replace('$', '').replace(',', '.').trim();
+    if (!text) return NaN;
+    const price = Number(text);
+    return Number.isFinite(price) && price >= 0 ? price : NaN;
+}
 function getProductsFromCart() {
-    let cart = JSON.parse(localStorage.getItem('cart_yardSale'));
-    return cart;
+    try {
+        const cart = JSON.parse(localStorage.getItem('cart_yardSale'));
+        return Array.isArray(cart) ? cart.filter(product => product && typeof product.name === 'string' && Number.isFinite(parsePrice(product.price))) : [];
+    } catch { return []; }
 }
 
 function deleteProductFromCart(productName) {
@@ -119,6 +128,9 @@ function deleteProductFromCart(productName) {
 
 function renderCart() {
     const cart = getProductsFromCart();
+    const container = document.querySelector('.my-order-content div');
+    if (!container) return;
+    container.replaceChildren();
     // si el carrito esta vacio mostrar mensaje
     if (cart === null || cart.length === 0) {
        shoppingCartState();
@@ -180,6 +192,8 @@ function renderCart() {
 }
 function shoppingCartState(){
     const orderContent = document.querySelector('.my-order-content div');
+    if (!orderContent) return;
+    orderContent.replaceChildren();
     const text = document.createElement('p');
     const textContent = document.createTextNode('There are no products in the cart');
     text.append(textContent);
@@ -207,7 +221,6 @@ function totalProducts() {
 function renderTotalProducts() {
     const totalProduct = document.querySelector('.navbar-shopping-cart div');
     totalProduct.innerHTML = totalProducts();
-    console.log(totalProducts());
 }
 
 function calculateTotal() {
@@ -216,9 +229,9 @@ function calculateTotal() {
         return 0;
     }
     const total = cart.reduce((acc, product) => {
-        return acc + (product.price.replace('$', '').replace(',', '')/100);
+        return acc + Math.round(parsePrice(product.price) * 100);
     }, 0);
-    return total;
+    return total / 100;
 }
 function renderTotal() {
     const total = calculateTotal();

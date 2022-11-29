@@ -5,87 +5,20 @@ const productElectronics = [];
 const productFurnitures = [];
 const productOthers = [];
 const productAll = [];
-const addProduct = (product) => {
-  if (product.category == "toys") {
-    productToys.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-    productAll.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-  } else if (product.category == "clothes") {
-    productClothes.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-    productAll.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-  } else if (product.category == "electronics") {
-    productElectronics.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-    productAll.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-  } else if (product.category == "furnitures") {
-    productFurnitures.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-    productAll.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-  } else if (product.category == "others") {
-    productOthers.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-    productAll.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    });
-  }
+const categories = {toys: productToys, clothes: productClothes, electronics: productElectronics, furnitures: productFurnitures, others: productOthers};
+const addProduct = product => {
+  const category = categories[product?.category];
+  if (!category || typeof product.name !== 'string' || !Number.isFinite(Number(product.price)) || Number(product.price) < 0) return false;
+  const entry = {name: product.name, price: Number(product.price), image: product.image, description: product.description, category: product.category};
+  category.push(entry);
+  productAll.push(entry);
+  return true;
 };
 const cardsContainer = document.querySelector(".cards-container");
 
 function renderProducts(arr) {
+  if (!cardsContainer || !Array.isArray(arr)) return;
+  cardsContainer.replaceChildren();
   for (let i = 0; i < arr.length; i++) {
     // product cart
     const productCart = document.createElement("div");
@@ -112,12 +45,12 @@ function renderProducts(arr) {
     productInfo.append(productInfoDiv);
 
     const productPrice = document.createElement("p");
-    productPrice.setAttribute('id', 'productPrice')
+    productPrice.setAttribute('class', 'productPrice')
     const productName = document.createElement("p");
-    productName.setAttribute('id', 'productName')
+    productName.setAttribute('class', 'productName')
     productInfoDiv.append(productPrice, productName);
 
-    const priceText = document.createTextNode("$" + arr[i].price + ",00");
+    const priceText = document.createTextNode("$" + arr[i].price.toFixed(2).replace(".", ","));
     const nameText = document.createTextNode(arr[i].name);
     productPrice.append(priceText);
     productName.append(nameText);

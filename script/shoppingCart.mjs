@@ -1,16 +1,9 @@
-import { addProductToCart } from "./addProductCart.mjs";
-import { renderCart } from "./addProductCart.mjs";
-
-const btnAddProduct = document.querySelectorAll('.btnAddProduct');
-
-btnAddProduct.forEach((btn) => {
-    btn.addEventListener('click', () => {
-        const productInfo = btn.parentElement.parentElement;
-        const productPrice = productInfo.querySelector('#productPrice').textContent;
-        const productName = productInfo.querySelector('#productName').textContent;
-        const productImage = productInfo.parentElement.querySelector('img').src;
-        addProductToCart(productName, productPrice, productImage);
-        
-    });
-    });
-
+import {addProductToCart} from './addProductCart.mjs';
+const container = document.querySelector('.cards-container');
+container?.addEventListener('click', event => {
+    const button = event.target.closest('.btnAddProduct');
+    if (!button || !container.contains(button)) return;
+    const card = button.closest('.product-card');
+    addProductToCart(card.querySelector('.productName').textContent,
+        card.querySelector('.productPrice').textContent, card.querySelector('img').src);
+});

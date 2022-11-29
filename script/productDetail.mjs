@@ -5,6 +5,7 @@ import { renderCart } from "./addProductCart.mjs";
         // <div class="product-detail-close">
         //   <img src="./icons/icon_close.png" alt="close">
         // </div>
+        const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
         const body = document.querySelector('body');
         const mainContainer = document.querySelector('.main-container')
         const asideProductDetail = document.createElement('aside');
@@ -27,7 +28,7 @@ import { renderCart } from "./addProductCart.mjs";
         const productDetailCloseIcon = document.querySelector(".product-detail-close");
         const menuDesktop = document.querySelector(".desktop-menu");
         const menuMobile = document.querySelector('.mobile-menu');
-function openProductDetailAside() {
+function openProductDetailAside(event) {
     productDetailContainer.classList.remove("inactive");
     if (shoppingCartContainer.classList.contains("inactive") == false) {
       shoppingCartContainer.classList.toggle("inactive");
@@ -43,14 +44,14 @@ function openProductDetailAside() {
     productDetailClose.appendChild(iconClose);
 
 
-    const imgProductDetail = event.target;
+    const imgProductDetail = event.currentTarget;
     const productDetail = imgProductDetail.parentElement;
-    const productDetailName = productDetail.querySelector("#productName").textContent;
-    const productDetailPrice = productDetail.querySelector("#productPrice").textContent;
+    const productDetailName = productDetail.querySelector(".productName").textContent;
+    const productDetailPrice = productDetail.querySelector(".productPrice").textContent;
     const productDetailImage = imgProductDetail.getAttribute('src');
     // buscar producto en array de productos con el nombre
     const product = productAll.find((product) => product.name === productDetailName);
-    console.log(product);
+    if (!product) return;
     const productDetailDescription = product.description;
     //agregar datos al aside
 
