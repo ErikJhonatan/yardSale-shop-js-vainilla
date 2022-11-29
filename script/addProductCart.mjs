@@ -53,6 +53,7 @@ function addProductToCart(productName, productPrice, productImage) {
 
     localStorage.setItem('cart_yardSale', JSON.stringify(cart));
     renderTotal();
+    renderTotalProducts();
     const orderContent = document.querySelector('.my-order-content div');
     const shoppingCart = document.createElement('div');
         shoppingCart.classList.add('shopping-cart');
@@ -98,6 +99,7 @@ function addProductToCart(productName, productPrice, productImage) {
                     shoppingCartState();
                 }
                 renderTotal();
+                renderTotalProducts();
             });
 
 }
@@ -111,7 +113,8 @@ function deleteProductFromCart(productName) {
     let cart = getProductsFromCart();
     cart = cart.filter((product) => product.name !== productName);
     localStorage.setItem('cart_yardSale', JSON.stringify(cart));
-    renderTotal();   
+    renderTotal();
+    renderTotalProducts();  
 }
 
 function renderCart() {
@@ -194,6 +197,19 @@ function shoppingCartState(){
     createImg.style.animation = 'bounce 1s infinite';
     orderContent.append(createImg);
 }
+function totalProducts() {
+    const cart = getProductsFromCart();
+    if (cart === null) {
+        return 0;
+    }
+    return cart.length;
+}
+function renderTotalProducts() {
+    const totalProduct = document.querySelector('.navbar-shopping-cart div');
+    totalProduct.innerHTML = totalProducts();
+    console.log(totalProducts());
+}
+
 function calculateTotal() {
     const cart = getProductsFromCart();
     if (cart === null || cart.length === 0) {
@@ -212,4 +228,5 @@ function renderTotal() {
 
 renderCart();
 renderTotal();
+renderTotalProducts();
  export {addProductToCart, renderCart, shoppingCartState, deleteProductFromCart, getProductsFromCart, renderTotal};
