@@ -9,3 +9,5 @@ Proyecto de aprendizaje de frontend con una interfaz de tienda. `index.html` def
 ## Uso y alcance
 
 Sirve la carpeta como sitio estático. Este repositorio conserva ejercicios de interfaz; no acredita un servicio de comercio electrónico con pagos o pedidos en producción.
+
+Las operaciones del carrito muestran un error si el almacenamiento falla. Los controles para quitar productos también admiten teclado.

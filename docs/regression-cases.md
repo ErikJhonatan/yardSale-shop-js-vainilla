@@ -9,3 +9,11 @@ Prepared for this change. **Not executed.** Tests, manual checks, lint and build
 | Rerender | Render catalogue/cart twice; empty-state function twice | One set of products and one empty state |
 | Listeners | Rerender catalogue then click add icon and product image | Delegated add listener works; product detail receives explicit event |
 | Deletion | Delete nonexistent product name | Other entries retained |
+
+## Additional cases (not executed)
+
+| Case | Input or setup | Expected outcome |
+| --- | --- | --- |
+| Storage failure | setItem throws when adding or deleting | Existing cart stays rendered; no false success |
+| Keyboard deletion | Focus a removal icon and press Enter or Space | Same deletion behavior as pointer activation |
+| Repeat render | Add, remove, and render repeatedly | Cart nodes replaced without accumulated listeners or duplicate products |
