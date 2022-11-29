@@ -230,3 +230,4 @@ renderCart();
 renderTotal();
 renderTotalProducts();
  export {addProductToCart, renderCart, shoppingCartState, deleteProductFromCart, getProductsFromCart, renderTotal};
+
