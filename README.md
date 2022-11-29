@@ -1,0 +1,1 @@
+# yardSale-shop-js-vainilla
